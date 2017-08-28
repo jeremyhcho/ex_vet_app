@@ -3,6 +3,10 @@ module Api
     class SessionsController < ApplicationController
       skip_before_action :authorize_request, only: :create
 
+      def index
+        head :no_content
+      end
+
       def create
         @user = User.find_by_credentials(
           params[:user][:email],

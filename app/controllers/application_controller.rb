@@ -8,6 +8,6 @@ class ApplicationController < ActionController::API
   private
 
   def authorize_request
-    raise AuthenticationError, 'Token invalid' unless current_session
+    raise ExceptionHandler::AuthenticationError, 'Token invalid' unless current_session
   end
 end
