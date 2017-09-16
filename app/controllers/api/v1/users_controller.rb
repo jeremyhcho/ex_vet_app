@@ -7,7 +7,13 @@ module Api
         @user = User.create!(user_params)
         login!
 
-        json_response(@user, :created)
+        json_response(@user.serialize, :created)
+      end
+
+      def show
+        @user = User.find(params[:id])
+
+        json_response(@user.serialize)
       end
 
       private

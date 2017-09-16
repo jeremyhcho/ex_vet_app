@@ -1,27 +1,23 @@
 module Api
   module V1
     class SessionsController < ApplicationController
-      skip_before_action :authorize_request, only: :create
+      skip_before_action :authorize_request, only: :login
 
-      def index
-        head :no_content
-      end
-
-      def create
+      def login
         @user = User.find_by_credentials(
           params[:user][:email],
           params[:user][:password]
         )
 
         if @user.nil?
-          json_response({ message: 'Invalid email/password combination' }, :unauthorized)
+          json_response({ message: 'Invalid email/password combination' }, :unprocessable_entity)
         else
           login!
-          json_response({ success: true })
+          json_response(@user.serialize)
         end
       end
 
-      def destroy
+      def logout
         @user = current_user
 
         if @user

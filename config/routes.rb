@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   namespace :api, format: { default: :json } do
     namespace :v1 do
-      resources :users, only: [:create]
+      resources :users, only: [:create, :show]
 
       # Auth
-      resources :sessions, only: [:index, :create, :destroy]
+      post :login, to: 'sessions#login'
+      delete :logout, to: 'sessions#logout'
     end
   end
 end

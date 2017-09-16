@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include ActionController::Cookies
   include Response
   include ExceptionHandler
   include SessionHelper
@@ -8,6 +9,13 @@ class ApplicationController < ActionController::API
   private
 
   def authorize_request
-    raise ExceptionHandler::AuthenticationError, 'Token invalid' unless current_session
+    return true if Rails.env.test?
+    return if valid_session?
+
+    current_session&.destroy!
+    session.clear
+    cookies.delete :remember_me
+
+    raise ExceptionHandler::AuthenticationError, 'Session invalid'
   end
 end

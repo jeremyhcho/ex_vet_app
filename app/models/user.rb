@@ -17,7 +17,8 @@
 class User < ActiveRecord::Base
   attr_reader :password
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true
+  validates_uniqueness_of :email, message: 'Oops, this email has already been registered!'
   validates :password_digest, presence: { message: "Password can't be blank" }
   validates :password, length: { minimum: 6, allow_nil: true }
 
@@ -36,5 +37,9 @@ class User < ActiveRecord::Base
 
   def password?(password)
     BCrypt::Password.new(password_digest).is_password?(password)
+  end
+
+  def serialize(opts = {})
+    Users::ShowSerializer.new(self, opts).serializable_hash
   end
 end

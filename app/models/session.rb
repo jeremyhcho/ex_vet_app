@@ -14,15 +14,22 @@ class Session < ActiveRecord::Base
 
   belongs_to :user
 
-  after_initialize :ensure_token
+  after_initialize :generate_token
+
+  before_create :hash_remember_me, :hash_token
+
+  def generate_token
+    self.token ||= SecureRandom.base64
+  end
 
   private
 
-  def self.generate_token
-    SecureRandom.base64
+  def hash_token
+    self.token = Digest::SHA256.hexdigest(token)
   end
 
-  def ensure_token
-    self.token ||= self.class.generate_token
+  def hash_remember_me
+    return unless remember_me
+    self.remember_me = Digest::SHA256.hexdigest(remember_me)
   end
 end
