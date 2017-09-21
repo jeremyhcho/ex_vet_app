@@ -288,7 +288,7 @@ describe 'Users API' do
     let(:params) do
       {
         params: {
-          email: 'from@example.com'
+          email: user.email
         }
       }
     end
@@ -298,7 +298,11 @@ describe 'Users API' do
     end
 
     let(:api_call) do
-      post '/api/v1/users/validate_reset', params
+      post '/api/v1/users/recover', params
+    end
+
+    let!(:user) do
+      FactoryGirl.create :user
     end
 
     before do
@@ -308,6 +312,10 @@ describe 'Users API' do
     end
 
     context 'when the email gets sent successfully' do
+      let(:expected_response) do
+        { success: true }
+      end
+
       before do
         allow(mailer_double)
           .to receive(:deliver!)
@@ -317,10 +325,31 @@ describe 'Users API' do
       end
 
       it 'should return the expected response' do
+        expect(json_response).to eq expected_response
       end
     end
 
     context 'when the email fails to send' do
+      let(:expected_response) do
+        {
+          messages: {
+            'bad_request' => 'Email was unable to be sent'
+          }
+        }
+      end
+
+      before do
+        allow(mailer_double)
+          .to receive(:deliver!)
+          .and_raise Net::SMTPFatalError
+
+        api_call
+      end
+
+      it 'should return the expected error' do
+        expect(response.status).to eq 400
+        expect(json_response).to eq expected_response
+      end
     end
   end
 end
