@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170921215746) do
+ActiveRecord::Schema.define(version: 20170921221935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170921215746) do
     t.text "description"
     t.integer "location_id"
     t.integer "creator_id"
-    t.integer "business_id"
+    t.integer "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_appointments_on_location_id"
@@ -31,7 +31,21 @@ ActiveRecord::Schema.define(version: 20170921215746) do
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
     t.integer "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_companies_on_owner_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "country"
+    t.string "state"
+    t.string "city"
+    t.string "address"
+    t.string "zip"
+    t.integer "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sessions", force: :cascade do |t|
