@@ -51,4 +51,20 @@ describe User, type: :model do
       end
     end
   end
+
+  context 'callbacks' do
+    context '#ensure_formatted_name' do
+      before do
+        subject.first_name = subject.first_name.downcase
+        subject.last_name = subject.last_name.downcase
+      end
+
+      it 'should properly capitalize the first and last name' do
+        subject.ensure_formatted_name
+
+        expect(subject.first_name).to eq subject.first_name.capitalize
+        expect(subject.last_name).to eq subject.last_name.capitalize
+      end
+    end
+  end
 end

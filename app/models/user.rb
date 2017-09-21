@@ -22,7 +22,18 @@ class User < ActiveRecord::Base
   validates :password_digest, presence: { message: "Password can't be blank" }
   validates :password, length: { minimum: 6, allow_nil: true }
 
+  before_save :ensure_formatted_name
+
   has_many :sessions
+
+  def ensure_formatted_name
+    self.first_name = first_name.capitalize
+    self.last_name = last_name.capitalize
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
@@ -41,5 +52,17 @@ class User < ActiveRecord::Base
 
   def serialize(opts = {})
     Users::ShowSerializer.new(self, opts).serializable_hash
+  end
+
+  def password_reset_token
+    @password_reset_token ||= (
+      Rails.cache.fetch(password_reset_token_cache_key, expires_in: 24.hours) do
+        Digest::SHA256.hexdigest(SecureRandom.base64)
+      end
+    )
+  end
+
+  def password_reset_token_cache_key
+    "password_reset_token:#{id}"
   end
 end

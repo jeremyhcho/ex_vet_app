@@ -10,7 +10,7 @@ module Api
         )
 
         if @user.nil?
-          json_response({ message: 'Invalid email/password combination' }, :unprocessable_entity)
+          raise ExceptionHandler::AuthenticationError, 'Invalid email/password combination'
         else
           login!
           json_response(@user.serialize)
@@ -24,7 +24,7 @@ module Api
           logout!
           head :no_content
         else
-          json_response({ message: 'Nobody is signed in!' }, :bad_request)
+          raise ExceptionHandler::BadRequest, 'Nobody is signed in!'
         end
       end
     end

@@ -47,7 +47,17 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  five_megabytes = 5 * (1024 * 1024)
+  config.cache_store = :dalli_store,
+                       ENV['MEMCACHE_SERVERS'],
+                       {
+                         username: ENV['MEMCACHE_USERNAME'],
+                         password: ENV['MEMCACHE_PASSWORD'],
+                         namespace: 'vet_app',
+                         expires_in: 0,
+                         compress: true,
+                         value_max_bytes: five_megabytes
+                       }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque

@@ -21,15 +21,31 @@ Rails.application.configure do
       'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
     }
   else
-    config.action_controller.perform_caching = false
-
-    config.cache_store = :null_store
+    five_megabytes = 5 * (1024 * 1024)
+    config.action_controller.perform_caching = true
+    config.cache_store = :dalli_store,
+                         "localhost:11211",
+                         {
+                           namespace: 'vet_app',
+                           expires_in: 1.hour,
+                           compress: true,
+                           value_max_bytes: five_megabytes
+                         }
   end
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
-  config.action_mailer.perform_caching = false
+  config.action_mailer.default charset: 'utf-8'
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    enable_starttls_auto: true,
+    user_name: ENV['gmail_username'],
+    password: ENV['gmail_password'],
+    authentication: 'plain',
+    domain: 'gmail.com'
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
