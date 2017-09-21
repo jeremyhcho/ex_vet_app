@@ -58,7 +58,7 @@ describe 'Sessions API' do
       let(:expected_response) do
         {
           messages: {
-            'unauthorized' => 'Invalid email/password combination'
+            unauthorized: 'Invalid email/password combination'
           }
         }
       end
@@ -87,7 +87,7 @@ describe 'Sessions API' do
       let(:expected_response) do
         {
           messages: {
-            'unauthorized' => 'Invalid email/password combination'
+            unauthorized: 'Invalid email/password combination'
           }
         }
       end

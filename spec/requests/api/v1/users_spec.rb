@@ -58,7 +58,7 @@ describe 'Users API' do
       let(:expected_response) do
         {
           messages: {
-            'email' => ['Oops, this email has already been registered!']
+            email: ['Oops, this email has already been registered!']
           }
         }
       end
@@ -144,7 +144,7 @@ describe 'Users API' do
         let(:expected_response) do
           {
             messages: {
-              'password' => ['is too short (minimum is 6 characters)']
+              password: ['is too short (minimum is 6 characters)']
             }
           }
         end
@@ -168,7 +168,7 @@ describe 'Users API' do
       let(:expected_response) do
         {
           messages: {
-            'unauthorized' => 'Invalid reset token'
+            unauthorized: 'Invalid reset token'
           }
         }
       end
@@ -260,7 +260,7 @@ describe 'Users API' do
       let(:expected_response) do
         {
           messages: {
-            'not_found' => 'Invalid reset token'
+            not_found: 'Invalid reset token'
           }
         }
       end
@@ -333,7 +333,7 @@ describe 'Users API' do
       let(:expected_response) do
         {
           messages: {
-            'bad_request' => 'Email was unable to be sent'
+            bad_request: 'Email was unable to be sent'
           }
         }
       end
