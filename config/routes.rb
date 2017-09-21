@@ -8,6 +8,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :appointments
+
       # Auth
       post :login, to: 'sessions#login'
       delete :logout, to: 'sessions#logout'

@@ -7,7 +7,7 @@ class CreateAppointments < ActiveRecord::Migration[5.1]
       t.text :description
       t.integer :location_id
       t.integer :creator_id
-      t.integer :business_id
+      t.integer :company_id
 
       t.timestamps
     end
