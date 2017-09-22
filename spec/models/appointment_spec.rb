@@ -9,7 +9,7 @@
 #  description :text
 #  location_id :integer
 #  creator_id  :integer
-#  business_id :integer
+#  company_id  :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
