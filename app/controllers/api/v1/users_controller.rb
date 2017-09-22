@@ -29,7 +29,7 @@ module Api
         @user = User.find_by!(email: params[:email])
         RecoverPasswordMailer.send_recover_password(@user).deliver!
 
-        json_response({ success: true })
+        json_response(success: true)
       rescue Net::SMTPFatalError
         raise ExceptionHandler::BadRequest, 'Email was unable to be sent'
       end
@@ -38,7 +38,7 @@ module Api
         @user = User.find(params[:user_id])
 
         if valid_reset_token?(@user.id)
-          json_response({ success: true })
+          json_response(success: true)
         else
           raise ActiveRecord::RecordNotFound, 'Invalid reset token'
         end
