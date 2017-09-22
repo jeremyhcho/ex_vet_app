@@ -36,6 +36,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include RequestHelper, type: :request
+  config.include AuthHelper, type: :request
 
   config.include FactoryGirl::Syntax::Methods
 
