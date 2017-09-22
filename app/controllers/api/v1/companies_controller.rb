@@ -4,13 +4,13 @@ module Api
       def index
         @companies = current_user.accessible_companies
 
-        json_response @companies
+        json_response(@companies, :ok, serializer: Companies::ShowSerializer)
       end
 
       def create
         @company = Company.create!(company_params)
 
-        json_response @company
+        json_response(@company, :created)
       end
 
       def update

@@ -4,24 +4,24 @@ module Api
       def index
         @appointments = Appointment.where(company_id: params[:company_id])
 
-        json_response @appointments, :ok, each_serializer: Appointments::ShowSerializer
+        json_response @appointments
       end
 
       def create
         @appointment = Appointment.create!(create_params)
-        json_response(@appointment, :created, serializer: Appointments::ShowSerializer)
+        json_response(@appointment, :created)
       end
 
       def update
         @appointment = Appointment.find(params[:id])
         @appointment.update_attributes!(appointment_params)
 
-        json_response(@appointment, :ok, serializer: Appointments::ShowSerializer)
+        json_response @appointment
       end
 
       def show
         @appointment = Appointment.find(params[:id])
-        json_response(@appointment, :ok, serializer: Appointments::ShowSerializer)
+        json_response @appointment
       end
 
       def destroy

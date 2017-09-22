@@ -8,7 +8,7 @@ module Api
         @user = User.create!(user_params)
         login!
 
-        json_response(@user.serialize, :created)
+        json_response(@user, :created)
       end
 
       def update
@@ -16,13 +16,13 @@ module Api
         @user.update_attributes!(user_params)
         Rails.cache.write("password_reset_token:#{params[:id]}", nil) if params[:token]
 
-        json_response(@user.serialize)
+        json_response @user
       end
 
       def show
         @user = User.find(params[:id])
 
-        json_response(@user.serialize)
+        json_response @user
       end
 
       def recover

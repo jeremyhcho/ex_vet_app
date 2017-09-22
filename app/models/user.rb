@@ -27,9 +27,13 @@ class User < ActiveRecord::Base
   has_many :sessions
   has_many :companies_users
   has_many :managed_companies, class_name: 'Company', foreign_key: :owner_id
-  has_many :accessible_companies,
+  has_many :authorized_companies,
            through: :companies_users,
            source: :company
+
+  def accessible_companies
+    managed_companies | authorized_companies
+  end
 
   def ensure_formatted_name
     self.first_name = first_name.capitalize
@@ -53,10 +57,6 @@ class User < ActiveRecord::Base
 
   def password?(password)
     BCrypt::Password.new(password_digest).is_password?(password)
-  end
-
-  def serialize(opts = {})
-    Users::ShowSerializer.new(self, opts).serializable_hash
   end
 
   def password_reset_token

@@ -58,14 +58,6 @@ describe User, type: :model do
         expect(subject.password?('password')).to eq true
       end
     end
-
-    context '#serialize' do
-      it 'should call the correct serializer' do
-        expect_any_instance_of(Users::ShowSerializer).to receive(:serializable_hash)
-
-        subject.serialize
-      end
-    end
   end
 
   context 'callbacks' do

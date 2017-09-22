@@ -14,18 +14,6 @@ describe 'Companies API' do
       get '/api/v1/companies'
     end
 
-    let(:user2) do
-      FactoryGirl.create :user
-    end
-
-    let!(:companies_user) do
-      FactoryGirl.create :companies_user, user: user, company: company
-    end
-
-    let!(:companies_user2) do
-      FactoryGirl.create :companies_user, user: user2, company: company
-    end
-
     let(:expected_response) do
       [
         {
@@ -36,6 +24,7 @@ describe 'Companies API' do
     end
 
     before do
+      company
       sign_in_as!(user)
     end
 

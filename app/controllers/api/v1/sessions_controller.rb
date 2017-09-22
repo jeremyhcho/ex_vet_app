@@ -13,7 +13,7 @@ module Api
           raise ExceptionHandler::AuthenticationError, 'Invalid email/password combination'
         else
           login!
-          json_response(@user.serialize)
+          json_response @user
         end
       end
 
