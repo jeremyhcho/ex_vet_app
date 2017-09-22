@@ -20,5 +20,7 @@ describe Company, type: :model do
     it { should belong_to :owner }
     it { should have_many :appointments }
     it { should have_many :locations }
+    it { should have_many :companies_users }
+    it { should have_many(:users).through(:companies_users) }
   end
 end
