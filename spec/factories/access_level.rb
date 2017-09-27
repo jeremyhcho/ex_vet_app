@@ -1,4 +1,4 @@
 FactoryGirl.define do
-  factory :companies_user do
+  factory :access_level do
   end
 end

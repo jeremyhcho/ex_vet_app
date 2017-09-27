@@ -13,9 +13,13 @@ describe 'Appointments API' do
     FactoryGirl.create :location, company: company
   end
 
+  before do
+    sign_in_as!(user)
+  end
+
   context '#index' do
     let(:api_call) do
-      get '/api/v1/appointments', params
+      get "/api/v1/companies/#{company.id}/appointments"
     end
 
     let!(:appointment) do
@@ -23,14 +27,6 @@ describe 'Appointments API' do
                          creator: user,
                          company: company,
                          location: location
-    end
-
-    let(:params) do
-      {
-        params: {
-          company_id: company.id
-        }
-      }
     end
 
     let(:expected_response) do
@@ -65,7 +61,7 @@ describe 'Appointments API' do
 
   context '#create' do
     let(:api_call) do
-      post '/api/v1/appointments', params
+      post "/api/v1/companies/#{company.id}/appointments", params
     end
 
     let(:params) do
@@ -76,8 +72,7 @@ describe 'Appointments API' do
             to: 'Thu, 21 Sep 2017 12:00:00 GMT',
             description: 'Description',
             title: 'Title',
-            location_id: location.id,
-            company_id: company.id
+            location_id: location.id
           }
         }
       }
@@ -100,7 +95,7 @@ describe 'Appointments API' do
 
   context '#update' do
     let(:api_call) do
-      put "/api/v1/appointments/#{appointment.id}", params
+      put "/api/v1/companies/#{company.id}/appointments/#{appointment.id}", params
     end
 
     let(:params) do
@@ -111,8 +106,7 @@ describe 'Appointments API' do
             to: 'Thu, 21 Sep 2017 12:00:00 GMT',
             description: 'Description',
             title: 'Title',
-            location_id: location.id,
-            company_id: company.id
+            location_id: location.id
           }
         }
       }
@@ -153,7 +147,7 @@ describe 'Appointments API' do
 
   context '#show' do
     let(:api_call) do
-      get "/api/v1/appointments/#{appointment.id}"
+      get "/api/v1/companies/#{company.id}/appointments/#{appointment.id}"
     end
 
     let(:appointment) do
@@ -191,7 +185,7 @@ describe 'Appointments API' do
 
   context '#destroy' do
     let(:api_call) do
-      delete "/api/v1/appointments/#{appointment.id}"
+      delete "/api/v1/companies/#{company.id}/appointments/#{appointment.id}"
     end
 
     let!(:appointment) do

@@ -8,9 +8,12 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :appointments
-      resources :locations
-      resources :companies
+      resources :companies do
+        resources :locations
+        resources :appointments
+        resources :customers
+        resources :products
+      end
 
       # Auth
       post :login, to: 'sessions#login'

@@ -5,8 +5,12 @@ describe 'Companies API' do
     FactoryGirl.create :user, password: 'password'
   end
 
-  let(:company) do
+  let!(:company) do
     FactoryGirl.create :company, owner: user
+  end
+
+  before do
+    sign_in_as!(user)
   end
 
   context '#index' do
@@ -19,12 +23,19 @@ describe 'Companies API' do
         {
           id: company.id,
           name: company.name
+        },
+        {
+          id: company2.id,
+          name: company2.name
         }
       ]
     end
 
+    let!(:company2) do
+      FactoryGirl.create :company, owner: user
+    end
+
     before do
-      company
       sign_in_as!(user)
     end
 

@@ -13,6 +13,10 @@ module ExceptionHandler
       json_response({ messages: { bad_request: e.message } }, :bad_request)
     end
 
+    rescue_from CanCan::AccessDenied do |e|
+      json_response({ messages: { forbidden: e.message } }, :forbidden)
+    end
+
     rescue_from ActiveRecord::RecordInvalid do |e|
       json_response({ messages: e.record.errors.messages }, :unprocessable_entity)
     end

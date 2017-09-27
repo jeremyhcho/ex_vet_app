@@ -39,9 +39,8 @@ module Api
           :to,
           :title,
           :description,
-          :location_id,
-          :company_id
-        )
+          :location_id
+        ).merge(company_id: params[:company_id])
       end
 
       def create_params

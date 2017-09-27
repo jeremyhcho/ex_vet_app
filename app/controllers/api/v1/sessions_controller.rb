@@ -2,6 +2,7 @@ module Api
   module V1
     class SessionsController < ApplicationController
       skip_before_action :authorize_request, only: :login
+      skip_before_action :authorize_company
 
       def login
         @user = User.find_by_credentials(

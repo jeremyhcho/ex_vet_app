@@ -2,6 +2,8 @@ module Api
   module V1
     class UsersController < ApplicationController
       skip_before_action :authorize_request, only: [:create, :recover, :validate_reset, :update]
+      skip_before_action :authorize_company
+
       before_action :validate_token_or_authorize_request, only: :update
 
       def create

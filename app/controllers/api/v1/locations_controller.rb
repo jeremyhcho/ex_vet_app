@@ -39,9 +39,8 @@ module Api
           :state,
           :city,
           :address,
-          :zip,
-          :company_id
-        )
+          :zip
+        ).merge(company_id: params[:company_id])
       end
     end
   end

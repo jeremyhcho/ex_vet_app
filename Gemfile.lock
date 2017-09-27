@@ -50,6 +50,7 @@ GEM
     bcrypt (3.1.11)
     builder (3.2.3)
     byebug (9.1.0)
+    cancancan (2.0.0)
     case_transform (0.2)
       activesupport
     coderay (1.1.1)
@@ -92,6 +93,15 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.2.0)
     minitest (5.10.3)
+    monetize (1.7.0)
+      money (~> 6.9)
+    money (6.9.0)
+      i18n (>= 0.6.4, < 0.9)
+    money-rails (1.9.0)
+      activesupport (>= 3.0)
+      monetize (~> 1.7.0)
+      money (~> 6.9.0)
+      railties (>= 3.0)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -190,6 +200,7 @@ DEPENDENCIES
   annotate (~> 2.7.2)
   bcrypt
   byebug
+  cancancan (~> 2.0)
   dalli
   database_cleaner (~> 1.6.1)
   dotenv-rails (~> 2.2.1)
@@ -197,6 +208,7 @@ DEPENDENCIES
   faker (~> 1.8.4)
   foreman (~> 0.63.0)
   listen (>= 3.0.5, < 3.2)
+  money-rails (~> 1.9.0)
   pg (~> 0.18)
   pry-rails (~> 0.3.6)
   puma (~> 3.7)
@@ -212,4 +224,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.15.4
+   1.16.0.pre.2

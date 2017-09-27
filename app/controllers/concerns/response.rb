@@ -12,7 +12,7 @@ module Response
   end
 
   def serialize(object, serializer)
-    serializer = serializer ? serializer : "#{object.class.to_s.pluralize}::ShowSerializer".constantize
+    serializer = serializer ? serializer : "#{object.class.to_s}Serializer".constantize
 
     serializer
       .new(object)

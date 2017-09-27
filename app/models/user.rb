@@ -25,15 +25,9 @@ class User < ActiveRecord::Base
   before_save :ensure_formatted_name
 
   has_many :sessions
-  has_many :companies_users
-  has_many :managed_companies, class_name: 'Company', foreign_key: :owner_id
-  has_many :authorized_companies,
-           through: :companies_users,
-           source: :company
-
-  def accessible_companies
-    managed_companies | authorized_companies
-  end
+  has_many :access_levels
+  has_many :companies,
+           through: :access_levels
 
   def ensure_formatted_name
     self.first_name = first_name.capitalize

@@ -1,10 +1,12 @@
 module Api
   module V1
     class CompaniesController < ApplicationController
-      def index
-        @companies = current_user.accessible_companies
+      skip_before_action :authorize_company
 
-        json_response(@companies, :ok, serializer: Companies::ShowSerializer)
+      def index
+        @companies = current_user.companies
+
+        json_response(@companies, :ok, serializer: CompanySerializer)
       end
 
       def create

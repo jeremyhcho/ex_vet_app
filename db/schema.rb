@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922054043) do
+ActiveRecord::Schema.define(version: 20170924234244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_levels", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "company_id"
+    t.boolean "is_admin", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "from", null: false
@@ -36,10 +44,17 @@ ActiveRecord::Schema.define(version: 20170922054043) do
     t.index ["owner_id"], name: "index_companies_on_owner_id"
   end
 
-  create_table "companies_users", force: :cascade do |t|
+  create_table "customers", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "company_name"
+    t.string "address"
+    t.string "email"
+    t.string "phone_number"
     t.integer "company_id"
-    t.integer "user_id"
-    t.index ["company_id", "user_id"], name: "index_companies_users_on_company_id_and_user_id", unique: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_customers_on_company_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -52,6 +67,50 @@ ActiveRecord::Schema.define(version: 20170922054043) do
     t.integer "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.string "image_url"
+    t.integer "company_id"
+    t.integer "price_cents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_products_on_company_id"
+  end
+
+  create_table "products_option_values", force: :cascade do |t|
+    t.string "option_value", null: false
+    t.integer "option_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_id"], name: "index_products_option_values_on_option_id"
+  end
+
+  create_table "products_options", force: :cascade do |t|
+    t.string "option_name"
+    t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_products_options_on_product_id"
+  end
+
+  create_table "products_variant_values", force: :cascade do |t|
+    t.integer "variant_id"
+    t.integer "option_value_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_value_id"], name: "index_products_variant_values_on_option_value_id"
+    t.index ["variant_id"], name: "index_products_variant_values_on_variant_id"
+  end
+
+  create_table "products_variants", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "price_cents", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_products_variants_on_product_id"
   end
 
   create_table "sessions", force: :cascade do |t|

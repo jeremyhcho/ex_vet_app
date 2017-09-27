@@ -6,12 +6,16 @@ describe 'Locations API' do
   end
 
   let(:user) do
-    FactoryGirl.create :user
+    FactoryGirl.create :user, password: 'password'
+  end
+
+  before do
+    sign_in_as!(user)
   end
 
   context '#index' do
     let(:api_call) do
-      get '/api/v1/locations', params
+      get "/api/v1/companies/#{company.id}/locations"
     end
 
     let(:company2) do
@@ -26,14 +30,6 @@ describe 'Locations API' do
     let!(:irrelevant_location) do
       FactoryGirl.create :location,
                          company: company2
-    end
-
-    let(:params) do
-      {
-        params: {
-          company_id: company.id
-        }
-      }
     end
 
     let(:expected_response) do
@@ -59,7 +55,7 @@ describe 'Locations API' do
 
   context '#create' do
     let(:api_call) do
-      post '/api/v1/locations', params
+      post "/api/v1/companies/#{company.id}/locations", params
     end
 
     let(:params) do
@@ -71,8 +67,7 @@ describe 'Locations API' do
             state: 'CA',
             city: 'Los Angeles',
             address: '1231 Oscar Blvd.',
-            zip: '91214',
-            company_id: company.id
+            zip: '91214'
           }
         }
       }
@@ -91,7 +86,7 @@ describe 'Locations API' do
 
   context '#update' do
     let(:api_call) do
-      put "/api/v1/locations/#{location.id}", params
+      put "/api/v1/companies/#{company.id}/locations/#{location.id}", params
     end
 
     let!(:location) do
@@ -134,7 +129,7 @@ describe 'Locations API' do
 
   context '#show' do
     let(:api_call) do
-      get "/api/v1/locations/#{location.id}"
+      get "/api/v1/companies/#{company.id}/locations/#{location.id}"
     end
 
     let!(:location) do
@@ -162,7 +157,7 @@ describe 'Locations API' do
 
   context '#destroy' do
     let(:api_call) do
-      delete "/api/v1/locations/#{location.id}"
+      delete "/api/v1/companies/#{company.id}/locations/#{location.id}"
     end
 
     let!(:location) do
